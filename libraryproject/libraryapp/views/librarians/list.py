@@ -2,8 +2,9 @@ import sqlite3
 from django.shortcuts import render
 from libraryapp.models import Librarian
 from ..connection import Connection
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def librarian_list(request):
     with sqlite3.connect(Connection.db_path) as conn:
         conn.row_factory = sqlite3.Row
@@ -25,15 +26,15 @@ def librarian_list(request):
         dataset = db_cursor.fetchall()
 
         for row in dataset:
-            lib = Librarian()
-            lib.id = row["id"]
-            lib.library_id = row["library_id"]
-            lib.user_id = row["user_id"]
-            lib.first_name = row["first_name"]
-            lib.last_name = row["last_name"]
-            lib.email = row["email"]
+            librarian = Librarian()
+            librarian.id = row["id"]
+            librarian.library_id = row["library_id"]
+            librarian.user_id = row["user_id"]
+            librarian.first_name = row["first_name"]
+            librarian.last_name = row["last_name"]
+            librarian.email = row["email"]
 
-            all_librarians.append(lib)
+            all_librarians.append(librarian)
 
     template_name = 'librarians/list.html'
 
