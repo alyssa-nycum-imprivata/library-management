@@ -33,20 +33,38 @@ def book_details(request, book_id):
     if request.method == 'GET':
         book = get_book(book_id)
 
-        template = 'books/detail.html'
-        context = {
-            'book': book
-        }
+        template_name = 'books/detail.html'
+        return render(request, template_name, {'book': book})
 
-        return render(request, template, context)
-
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form_data = request.POST
 
+        # Check if this POST is for editing a book
+        if (
+            "actual_method" in form_data
+            and form_data["actual_method"] == "PUT"
+        ):
+            with sqlite3.connect(Connection.db_path) as conn:
+                db_cursor = conn.cursor()
+
+                db_cursor.execute("""
+                UPDATE libraryapp_book
+                SET title = ?,
+                    isbn = ?,
+                    author = ?,
+                    publisher = ?,
+                    library_id = ?,
+                    year_published = ?
+                WHERE id = ?
+                """,
+                (
+                    form_data['title'], form_data['isbn'],form_data['author'], form_data['publisher'],
+                    form_data["library"], form_data['year_published'], book_id,
+                ))
+
+            return redirect(reverse('libraryapp:books'))
+    
         # Check if this POST is for deleting a book
-        #
-        # Note: You can use parenthesis to break up complex
-        #       `if` statements for higher readability
         if (
             "actual_method" in form_data
             and form_data["actual_method"] == "DELETE"
