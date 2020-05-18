@@ -9,19 +9,10 @@ from ..connection import Connection
 
 
 def get_libraries():
-    with sqlite3.connect(Connection.db_path) as conn:
-        conn.row_factory = model_factory(Library)
-        db_cursor = conn.cursor()
+    
+    all_libraries = Library.objects.all()
 
-        db_cursor.execute("""
-        select
-            l.id,
-            l.name,
-            l.address
-        from libraryapp_library l
-        """)
-
-        return db_cursor.fetchall()
+    return all_libraries
 
 @login_required
 def book_form(request):
