@@ -11,8 +11,10 @@
             <a href="{% url 'libraryapp:library' library.id %}">
                 {{ library.name }}</a>
             <ul>
-            {% for book in library.books %}
-                <li>{{ book.title }}</li>
+            {% for book in all_books %}
+                {% if book.library_id == library.id %}
+                    <li>{{ book.title }}</li>
+                {% endif %}
             {% endfor %}
             </ul>
         </li>
