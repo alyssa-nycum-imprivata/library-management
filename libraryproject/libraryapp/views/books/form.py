@@ -10,9 +10,7 @@ from ..connection import Connection
 
 def get_libraries():
     
-    all_libraries = Library.objects.all()
-
-    return all_libraries
+    return Library.objects.all()
 
 @login_required
 def book_form(request):

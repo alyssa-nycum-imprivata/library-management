@@ -9,9 +9,7 @@ from ..connection import Connection
 
 def get_library(library_id):
     
-    library = Library.objects.get(pk=library_id)
-    
-    return library
+    return Library.objects.get(pk=library_id)
 
 @login_required
 def library_details(request, library_id):

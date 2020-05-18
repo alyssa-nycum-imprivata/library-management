@@ -23,10 +23,8 @@ def library_list(request):
     elif request.method == 'POST':
         form_data = request.POST
 
-        new_library = Library()
-        new_library.name = form_data['name']
-        new_library.address = form_data['address']
-
-        new_library.save()
+        Library.objects.create(
+        name = form_data['name'],
+        address = form_data['address'])
 
         return redirect(reverse('libraryapp:libraries'))

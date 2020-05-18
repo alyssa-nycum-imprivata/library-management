@@ -7,9 +7,7 @@ from ..connection import Connection
 
 def get_librarian(librarian_id):
     
-    librarian = Librarian.objects.get(pk=librarian_id)
-
-    return librarian
+    return Librarian.objects.get(pk=librarian_id)
 
 @login_required
 def librarian_details(request, librarian_id):

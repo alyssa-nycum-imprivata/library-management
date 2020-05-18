@@ -21,15 +21,13 @@ def book_list(request):
     elif request.method == 'POST':
         form_data = request.POST
 
-        new_book = Book()
-        new_book.title = form_data['title']
-        new_book.author = form_data['author']
-        new_book.isbn = form_data['isbn']
-        new_book.year_published = form_data['year_published']
-        new_book.publisher = form_data['publisher']
-        new_book.librarian_id = request.user.librarian.id 
-        new_book.library_id = form_data['library']
-
-        new_book.save()
+        Book.objects.create(
+        title = form_data['title'],
+        author = form_data['author'],
+        isbn = form_data['isbn'],
+        year_published = form_data['year_published'],
+        publisher = form_data['publisher'],
+        librarian_id = request.user.librarian.id,
+        library_id = form_data['library'])
 
         return redirect(reverse('libraryapp:books'))
